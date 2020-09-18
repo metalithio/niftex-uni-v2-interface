@@ -67,7 +67,8 @@ const initialState: ListsState = {
       pendingUpdate: null
     }
   },
-  selectedListUrl: undefined
+	// !NOTE changed
+  selectedListUrl: 'https://umaproject.org/uma.tokenlist.json'
 }
 
 export default createReducer(initialState, builder =>
@@ -123,7 +124,7 @@ export default createReducer(initialState, builder =>
       }
     })
     .addCase(selectList, (state, { payload: url }) => {
-      state.selectedListUrl = url
+      state.selectedListUrl = 'https://umaproject.org/uma.tokenlist.json'
       // automatically adds list
       if (!state.byUrl[url]) {
         state.byUrl[url] = NEW_LIST_STATE
@@ -139,7 +140,7 @@ export default createReducer(initialState, builder =>
         delete state.byUrl[url]
       }
       if (state.selectedListUrl === url) {
-        state.selectedListUrl = Object.keys(state.byUrl)[0]
+        state.selectedListUrl = 'https://umaproject.org/uma.tokenlist.json'
       }
     })
     .addCase(acceptListUpdate, (state, { payload: url }) => {
@@ -156,7 +157,7 @@ export default createReducer(initialState, builder =>
       // state loaded from localStorage, but new lists have never been initialized
       if (!state.lastInitializedDefaultListOfLists) {
         state.byUrl = initialState.byUrl
-        state.selectedListUrl = undefined
+        state.selectedListUrl = 'https://umaproject.org/uma.tokenlist.json'
       } else if (state.lastInitializedDefaultListOfLists) {
         const lastInitializedSet = state.lastInitializedDefaultListOfLists.reduce<Set<string>>(
           (s, l) => s.add(l),

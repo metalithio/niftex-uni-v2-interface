@@ -61,6 +61,7 @@ export default function CurrencySearchModal({
   }, [])
 
   const selectedListUrl = useSelectedListUrl()
+	console.log(selectedListUrl)
   const noListSelected = !selectedListUrl
 
   return (
