@@ -40,7 +40,6 @@ const EMPTY_LIST: TokenAddressMap = {
   [ChainId.MAINNET]: {},
 	[80001]: {}
 }
-console.log(EMPTY_LIST)
 
 const listCache: WeakMap<TokenList, TokenAddressMap> | null =
   typeof WeakMap !== 'undefined' ? new WeakMap<TokenList, TokenAddressMap>() : null
@@ -51,7 +50,6 @@ export function listToTokenMap(list: TokenList): TokenAddressMap {
 
   const map = list.tokens.reduce<TokenAddressMap>(
     (tokenMap, tokenInfo) => {
-			console.log(tokenMap, tokenInfo)
       const tags: TagInfo[] =
         tokenInfo.tags
           ?.map(tagId => {
@@ -77,7 +75,6 @@ export function listToTokenMap(list: TokenList): TokenAddressMap {
 
 export function useTokenList(url: string | undefined): TokenAddressMap {
   const lists = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
-	console.log(url, lists)
   return useMemo(() => {
     if (!url) return EMPTY_LIST
     const current = lists[url]?.current
