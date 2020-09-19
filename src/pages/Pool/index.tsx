@@ -55,13 +55,13 @@ export default function Pool() {
   const allV2PairsWithLiquidity = v2Pairs.map(([, pair]) => pair).filter((v2Pair): v2Pair is Pair => Boolean(v2Pair))
 
   const hasV1Liquidity = useUserHasLiquidityInAllTokens()
-
+	// !NOTE changed to="/add/..."
   return (
     <>
       <AppBody>
         <SwapPoolTabs active={'pool'} />
         <AutoColumn gap="lg" justify="center">
-          <ButtonPrimary id="join-pool-button" as={Link} style={{ padding: 16 }} to="/add/ETH">
+          <ButtonPrimary id="join-pool-button" as={Link} style={{ padding: 16 }} to="/add/0x714550C2C1Ea08688607D86ed8EeF4f5E4F22323">
             <Text fontWeight={500} fontSize={20}>
               Add Liquidity
             </Text>
