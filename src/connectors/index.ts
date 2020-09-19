@@ -20,6 +20,7 @@ if (typeof NETWORK_URL === 'undefined') {
 export const network = new NetworkConnector({
   urls: { [NETWORK_CHAIN_ID]: NETWORK_URL }
 })
+console.log(network)
 
 let networkLibrary: Web3Provider | undefined
 export function getNetworkLibrary(): Web3Provider {
@@ -28,7 +29,7 @@ export function getNetworkLibrary(): Web3Provider {
 
 export const injected = new InjectedConnector({
 	// !NOTE changed
-  supportedChainIds: [1, 3, 4, 5, 42, 80001, 137]
+  supportedChainIds: [80001, 137]
 })
 
 // mainnet only

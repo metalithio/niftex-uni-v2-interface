@@ -1,9 +1,9 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { getVersionUpgrade, VersionUpgrade } from '@uniswap/token-lists'
+// import { getVersionUpgrade, VersionUpgrade } from '@uniswap/token-lists'
 import { TokenList } from '@uniswap/token-lists/dist/types'
 import { DEFAULT_LIST_OF_LISTS, DEFAULT_TOKEN_LIST_URL } from '../../constants/lists'
 import { updateVersion } from '../global/actions'
-import { acceptListUpdate, addList, fetchTokenList, removeList, selectList } from './actions'
+import { acceptListUpdate, addList, removeList, selectList } from './actions'
 // !NOTE changed
 // import UNISWAP_DEFAULT_LIST from '@uniswap/default-token-list'
 // console.log(UNISWAP_DEFAULT_LIST)
@@ -68,63 +68,63 @@ const initialState: ListsState = {
     }
   },
 	// !NOTE changed
-  selectedListUrl: 'https://umaproject.org/uma.tokenlist.json'
+  selectedListUrl: DEFAULT_TOKEN_LIST_URL
 }
 
 export default createReducer(initialState, builder =>
   builder
-    .addCase(fetchTokenList.pending, (state, { payload: { requestId, url } }) => {
-      state.byUrl[url] = {
-        current: null,
-        pendingUpdate: null,
-        ...state.byUrl[url],
-        loadingRequestId: requestId,
-        error: null
-      }
-    })
-    .addCase(fetchTokenList.fulfilled, (state, { payload: { requestId, tokenList, url } }) => {
-      const current = state.byUrl[url]?.current
-      const loadingRequestId = state.byUrl[url]?.loadingRequestId
-
-      // no-op if update does nothing
-      if (current) {
-        const upgradeType = getVersionUpgrade(current.version, tokenList.version)
-        if (upgradeType === VersionUpgrade.NONE) return
-        if (loadingRequestId === null || loadingRequestId === requestId) {
-          state.byUrl[url] = {
-            ...state.byUrl[url],
-            loadingRequestId: null,
-            error: null,
-            current: current,
-            pendingUpdate: tokenList
-          }
-        }
-      } else {
-        state.byUrl[url] = {
-          ...state.byUrl[url],
-          loadingRequestId: null,
-          error: null,
-          current: tokenList,
-          pendingUpdate: null
-        }
-      }
-    })
-    .addCase(fetchTokenList.rejected, (state, { payload: { url, requestId, errorMessage } }) => {
-      if (state.byUrl[url]?.loadingRequestId !== requestId) {
-        // no-op since it's not the latest request
-        return
-      }
-
-      state.byUrl[url] = {
-        ...state.byUrl[url],
-        loadingRequestId: null,
-        error: errorMessage,
-        current: null,
-        pendingUpdate: null
-      }
-    })
+    // .addCase(fetchTokenList.pending, (state, { payload: { requestId, url } }) => {
+    //   state.byUrl[url] = {
+    //     current: null,
+    //     pendingUpdate: null,
+    //     ...state.byUrl[url],
+    //     loadingRequestId: requestId,
+    //     error: null
+    //   }
+    // })
+    // .addCase(fetchTokenList.fulfilled, (state, { payload: { requestId, tokenList, url } }) => {
+    //   const current = state.byUrl[url]?.current
+    //   const loadingRequestId = state.byUrl[url]?.loadingRequestId
+		//
+    //   // no-op if update does nothing
+    //   if (current) {
+    //     const upgradeType = getVersionUpgrade(current.version, tokenList.version)
+    //     if (upgradeType === VersionUpgrade.NONE) return
+    //     if (loadingRequestId === null || loadingRequestId === requestId) {
+    //       state.byUrl[url] = {
+    //         ...state.byUrl[url],
+    //         loadingRequestId: null,
+    //         error: null,
+    //         current: current,
+    //         pendingUpdate: tokenList
+    //       }
+    //     }
+    //   } else {
+    //     state.byUrl[url] = {
+    //       ...state.byUrl[url],
+    //       loadingRequestId: null,
+    //       error: null,
+    //       current: tokenList,
+    //       pendingUpdate: null
+    //     }
+    //   }
+    // })
+    // .addCase(fetchTokenList.rejected, (state, { payload: { url, requestId, errorMessage } }) => {
+    //   if (state.byUrl[url]?.loadingRequestId !== requestId) {
+    //     // no-op since it's not the latest request
+    //     return
+    //   }
+		//
+    //   state.byUrl[url] = {
+    //     ...state.byUrl[url],
+    //     loadingRequestId: null,
+    //     error: errorMessage,
+    //     current: null,
+    //     pendingUpdate: null
+    //   }
+    // })
     .addCase(selectList, (state, { payload: url }) => {
-      state.selectedListUrl = 'https://umaproject.org/uma.tokenlist.json'
+      state.selectedListUrl = url
       // automatically adds list
       if (!state.byUrl[url]) {
         state.byUrl[url] = NEW_LIST_STATE
@@ -140,7 +140,7 @@ export default createReducer(initialState, builder =>
         delete state.byUrl[url]
       }
       if (state.selectedListUrl === url) {
-        state.selectedListUrl = 'https://umaproject.org/uma.tokenlist.json'
+        state.selectedListUrl = Object.keys(state.byUrl)[0]
       }
     })
     .addCase(acceptListUpdate, (state, { payload: url }) => {
@@ -157,7 +157,7 @@ export default createReducer(initialState, builder =>
       // state loaded from localStorage, but new lists have never been initialized
       if (!state.lastInitializedDefaultListOfLists) {
         state.byUrl = initialState.byUrl
-        state.selectedListUrl = 'https://umaproject.org/uma.tokenlist.json'
+        state.selectedListUrl = undefined
       } else if (state.lastInitializedDefaultListOfLists) {
         const lastInitializedSet = state.lastInitializedDefaultListOfLists.reduce<Set<string>>(
           (s, l) => s.add(l),

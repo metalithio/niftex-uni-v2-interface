@@ -25,18 +25,22 @@ export class WrappedTokenInfo extends Token {
   }
 }
 
-export type TokenAddressMap = Readonly<{ [chainId in ChainId]: Readonly<{ [tokenAddress: string]: WrappedTokenInfo }> }>
+// !NOTE changed
+export type TokenAddressMap = Readonly<{ [chainId: number]: Readonly<{ [tokenAddress: string]: WrappedTokenInfo }> }>
 
 /**
  * An empty result, useful as a default.
  */
+ // !NOTE changed
 const EMPTY_LIST: TokenAddressMap = {
   [ChainId.KOVAN]: {},
   [ChainId.RINKEBY]: {},
   [ChainId.ROPSTEN]: {},
   [ChainId.GÖRLI]: {},
-  [ChainId.MAINNET]: {}
+  [ChainId.MAINNET]: {},
+	[80001]: {}
 }
+console.log(EMPTY_LIST)
 
 const listCache: WeakMap<TokenList, TokenAddressMap> | null =
   typeof WeakMap !== 'undefined' ? new WeakMap<TokenList, TokenAddressMap>() : null
@@ -47,6 +51,7 @@ export function listToTokenMap(list: TokenList): TokenAddressMap {
 
   const map = list.tokens.reduce<TokenAddressMap>(
     (tokenMap, tokenInfo) => {
+			console.log(tokenMap, tokenInfo)
       const tags: TagInfo[] =
         tokenInfo.tags
           ?.map(tagId => {
@@ -72,6 +77,7 @@ export function listToTokenMap(list: TokenList): TokenAddressMap {
 
 export function useTokenList(url: string | undefined): TokenAddressMap {
   const lists = useSelector<AppState, AppState['lists']['byUrl']>(state => state.lists.byUrl)
+	console.log(url, lists)
   return useMemo(() => {
     if (!url) return EMPTY_LIST
     const current = lists[url]?.current
