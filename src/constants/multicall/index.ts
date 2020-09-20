@@ -1,4 +1,4 @@
-import { ChainId } from '@uniswap/sdk'
+import { ChainId } from 'niftex-uni-sdk'
 import MULTICALL_ABI from './abi.json'
 
 // !NOTE changed

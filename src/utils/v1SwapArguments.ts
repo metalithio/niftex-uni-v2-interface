@@ -1,5 +1,5 @@
 import { MaxUint256 } from '@ethersproject/constants'
-import { CurrencyAmount, ETHER, SwapParameters, Token, Trade, TradeOptions, TradeType } from '@uniswap/sdk'
+import { CurrencyAmount, ETHER, SwapParameters, Token, Trade, TradeOptions, TradeType } from 'niftex-uni-sdk'
 import { getTradeVersion } from '../data/V1'
 import { Version } from '../hooks/useToggledVersion'
 

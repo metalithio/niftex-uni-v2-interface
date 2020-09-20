@@ -1,4 +1,4 @@
-import { TokenAmount, Pair, Currency } from '@uniswap/sdk'
+import { TokenAmount, Pair, Currency } from 'niftex-uni-sdk'
 import { useMemo } from 'react'
 import { abi as IUniswapV2PairABI } from '@uniswap/v2-core/build/IUniswapV2Pair.json'
 import { Interface } from '@ethersproject/abi'
@@ -35,9 +35,9 @@ export function usePairs(currencies: [Currency | undefined, Currency | undefined
       }),
     [tokens]
   )
-
+	console.log(pairAddresses)
   const results = useMultipleContractSingleData(pairAddresses, PAIR_INTERFACE, 'getReserves')
-
+	console.log(results)
   return useMemo(() => {
     return results.map((result, i) => {
       const { result: reserves, loading } = result

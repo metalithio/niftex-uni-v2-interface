@@ -1,4 +1,4 @@
-import { ChainId, JSBI, Percent, Token, WETH } from '@uniswap/sdk'
+import { ChainId, JSBI, Percent, Token, WETH } from 'niftex-uni-sdk'
 import { AbstractConnector } from '@web3-react/abstract-connector'
 
 import { fortmatic, injected, portis, walletconnect, walletlink } from '../connectors'
@@ -7,8 +7,9 @@ import { fortmatic, injected, portis, walletconnect, walletlink } from '../conne
 export const ROUTER_ADDRESS = '0x9D3a9Dc2BF1462CC3B9Bcff3C06a1C88b783dF47'
 
 // a list of tokens by chain
+// !NOTE changed
 type ChainTokenList = {
-  readonly [chainId in ChainId]: Token[]
+  readonly [chainId: number]: Token[]
 }
 
 export const DAI = new Token(ChainId.MAINNET, '0x6B175474E89094C44Da98b954EedeAC495271d0F', 18, 'DAI', 'Dai Stablecoin')
@@ -29,7 +30,9 @@ const WETH_ONLY: ChainTokenList = {
 // used to construct intermediary pairs for trading
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WETH_ONLY,
-  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDC, USDT, COMP, MKR]
+  [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDC, USDT, COMP, MKR],
+	[80001]: []
+
 }
 
 /**

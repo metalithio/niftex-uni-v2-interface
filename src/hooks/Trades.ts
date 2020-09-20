@@ -1,4 +1,4 @@
-import { Currency, CurrencyAmount, Pair, Token, Trade } from '@uniswap/sdk'
+import { Currency, CurrencyAmount, Pair, Token, Trade } from 'niftex-uni-sdk'
 import flatMap from 'lodash.flatmap'
 import { useMemo } from 'react'
 
@@ -58,9 +58,9 @@ function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): Pair[] {
         : [],
     [tokenA, tokenB, bases, basePairs, chainId]
   )
-
+	console.log(allPairCombinations)
   const allPairs = usePairs(allPairCombinations)
-
+	console.log(allPairs)
   // only pass along valid pairs, non-duplicated pairs
   return useMemo(
     () =>
@@ -83,6 +83,7 @@ function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): Pair[] {
  */
 export function useTradeExactIn(currencyAmountIn?: CurrencyAmount, currencyOut?: Currency): Trade | null {
   const allowedPairs = useAllCommonPairs(currencyAmountIn?.currency, currencyOut)
+	console.log('IN ', allowedPairs)
   return useMemo(() => {
     if (currencyAmountIn && currencyOut && allowedPairs.length > 0) {
       return (
@@ -97,15 +98,15 @@ export function useTradeExactIn(currencyAmountIn?: CurrencyAmount, currencyOut?:
  * Returns the best trade for the token in to the exact amount of token out
  */
 export function useTradeExactOut(currencyIn?: Currency, currencyAmountOut?: CurrencyAmount): Trade | null {
-  const allowedPairs = useAllCommonPairs(currencyIn, currencyAmountOut?.currency)
-
+  // const allowedPairs = useAllCommonPairs(currencyIn, currencyAmountOut?.currency)
   return useMemo(() => {
-    if (currencyIn && currencyAmountOut && allowedPairs.length > 0) {
-      return (
-        Trade.bestTradeExactOut(allowedPairs, currencyIn, currencyAmountOut, { maxHops: 3, maxNumResults: 1 })[0] ??
-        null
-      )
-    }
     return null
-  }, [allowedPairs, currencyIn, currencyAmountOut])
+  }, [])
 }
+
+// if (currencyIn && currencyAmountOut && allowedPairs.length > 0) {
+//   return (
+//     Trade.bestTradeExactOut(allowedPairs, currencyIn, currencyAmountOut, { maxHops: 3, maxNumResults: 1 })[0] ??
+//     null
+//   )
+// }
