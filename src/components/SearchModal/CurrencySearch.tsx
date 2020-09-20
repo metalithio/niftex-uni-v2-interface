@@ -93,7 +93,6 @@ export function CurrencySearch({
       ...sorted.filter(token => token.symbol?.toLowerCase() !== symbolMatch[0])
     ]
   }, [filteredTokens, searchQuery, searchToken, tokenComparator])
-
   const handleCurrencySelect = useCallback(
     (currency: Currency) => {
       onCurrencySelect(currency)

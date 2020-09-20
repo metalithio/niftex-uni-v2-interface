@@ -114,8 +114,8 @@ function CurrencyRow({
     >
       <CurrencyLogo currency={currency} size={'24px'} />
       <Column>
-        <Text title={currency.name} fontWeight={500}>
-          {currency.symbol}
+        <Text title={currency.name === 'Ether' ? 'Matic' : currency.name } fontWeight={500}>
+          {currency.symbol === 'ETH' ? 'MATIC' : currency.symbol}
         </Text>
         <FadedSpan>
           {!isOnSelectedList && customAdded ? (
@@ -171,7 +171,16 @@ export default function CurrencyList({
   fixedListRef?: MutableRefObject<FixedSizeList | undefined>
   showETH: boolean
 }) {
-  const itemData = useMemo(() => (showETH ? [Currency.ETHER, ...currencies] : currencies), [currencies, showETH])
+	// !NOTE changed
+	// Currency.ETHER here is in fact MATIC
+	const WETH = new Token(
+		80001,
+		'0x714550C2C1Ea08688607D86ed8EeF4f5E4F22323',
+		18,
+		'WETH',
+		'Wrapped Ether'
+	)
+  const itemData = useMemo(() => (showETH ? [Currency.ETHER, WETH, ...currencies] : currencies), [currencies, showETH])
 
   const Row = useCallback(
     ({ data, index, style }) => {
