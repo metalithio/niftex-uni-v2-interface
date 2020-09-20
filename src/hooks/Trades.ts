@@ -58,9 +58,7 @@ function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): Pair[] {
         : [],
     [tokenA, tokenB, bases, basePairs, chainId]
   )
-	console.log(allPairCombinations)
   const allPairs = usePairs(allPairCombinations)
-	console.log(allPairs)
   // only pass along valid pairs, non-duplicated pairs
   return useMemo(
     () =>
@@ -83,7 +81,6 @@ function useAllCommonPairs(currencyA?: Currency, currencyB?: Currency): Pair[] {
  */
 export function useTradeExactIn(currencyAmountIn?: CurrencyAmount, currencyOut?: Currency): Trade | null {
   const allowedPairs = useAllCommonPairs(currencyAmountIn?.currency, currencyOut)
-	console.log('IN ', allowedPairs)
   return useMemo(() => {
     if (currencyAmountIn && currencyOut && allowedPairs.length > 0) {
       return (

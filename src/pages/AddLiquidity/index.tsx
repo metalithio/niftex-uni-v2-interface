@@ -167,7 +167,6 @@ export default function AddLiquidity({
         account,
         deadlineFromNow
       ]
-			console.log(args)
       value = null
     }
 
