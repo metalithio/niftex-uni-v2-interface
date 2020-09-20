@@ -1,34 +1,34 @@
 import { createReducer } from '@reduxjs/toolkit'
-// import { getVersionUpgrade, VersionUpgrade } from '@uniswap/token-lists'
+import { getVersionUpgrade, VersionUpgrade } from '@uniswap/token-lists'
 import { TokenList } from '@uniswap/token-lists/dist/types'
 import { DEFAULT_LIST_OF_LISTS, DEFAULT_TOKEN_LIST_URL } from '../../constants/lists'
 import { updateVersion } from '../global/actions'
-import { acceptListUpdate, addList, removeList, selectList } from './actions'
+import { acceptListUpdate, addList, removeList, fetchTokenList, selectList } from './actions'
 // !NOTE changed
 // import UNISWAP_DEFAULT_LIST from '@uniswap/default-token-list'
 // console.log(UNISWAP_DEFAULT_LIST)
-const UNISWAP_DEFAULT_LIST = {
-	keywords: ["uniswap", "default"],
-	logoURI: "ipfs://QmNa8mQkrNKp1WEEeGjFezDmDeodkWRevGFN8JCV7b4Xir",
-	name: "Uniswap Default List",
-	tags: {},
-	timestamp: "2020-09-17T00:12:46.685Z",
-	tokens: [
-		{
-			name: "COOL",
-			address: "0x5bd317b32ee4ee1c42043a5d608ac7082575d407",
-			symbol: "COOL",
-			logoURI: "https://raw.githubusercontent.com/trustwallet/assets/master/…m/assets/0xB6eD7644C69416d67B522e20bC294A9a9B405B31/logo.png",
-			chainId: 80001,
-			decimals: 18
-		}
-	],
-	version: {
-		major: 1,
-		minor: 1,
-		patch: 0
-	}
-}
+// const UNISWAP_DEFAULT_LIST = {
+// 	keywords: ["uniswap", "default"],
+// 	logoURI: "ipfs://QmNa8mQkrNKp1WEEeGjFezDmDeodkWRevGFN8JCV7b4Xir",
+// 	name: "Uniswap Default List",
+// 	tags: {},
+// 	timestamp: "2020-09-17T00:12:46.685Z",
+// 	tokens: [
+// 		{
+// 			name: "COOL",
+// 			address: "0x5bd317b32ee4ee1c42043a5d608ac7082575d407",
+// 			symbol: "COOL",
+// 			logoURI: "https://raw.githubusercontent.com/trustwallet/assets/master/…m/assets/0xB6eD7644C69416d67B522e20bC294A9a9B405B31/logo.png",
+// 			chainId: 80001,
+// 			decimals: 18
+// 		}
+// 	],
+// 	version: {
+// 		major: 1,
+// 		minor: 1,
+// 		patch: 0
+// 	}
+// }
 
 export interface ListsState {
   readonly byUrl: {
@@ -60,12 +60,12 @@ const initialState: ListsState = {
       memo[listUrl] = NEW_LIST_STATE
       return memo
     }, {}),
-    [DEFAULT_TOKEN_LIST_URL]: {
-      error: null,
-      current: UNISWAP_DEFAULT_LIST,
-      loadingRequestId: null,
-      pendingUpdate: null
-    }
+    // [DEFAULT_TOKEN_LIST_URL]: {
+    //   error: null,
+    //   current: UNISWAP_DEFAULT_LIST,
+    //   loadingRequestId: null,
+    //   pendingUpdate: null
+    // }
   },
 	// !NOTE changed
   selectedListUrl: DEFAULT_TOKEN_LIST_URL
@@ -73,56 +73,56 @@ const initialState: ListsState = {
 
 export default createReducer(initialState, builder =>
   builder
-    // .addCase(fetchTokenList.pending, (state, { payload: { requestId, url } }) => {
-    //   state.byUrl[url] = {
-    //     current: null,
-    //     pendingUpdate: null,
-    //     ...state.byUrl[url],
-    //     loadingRequestId: requestId,
-    //     error: null
-    //   }
-    // })
-    // .addCase(fetchTokenList.fulfilled, (state, { payload: { requestId, tokenList, url } }) => {
-    //   const current = state.byUrl[url]?.current
-    //   const loadingRequestId = state.byUrl[url]?.loadingRequestId
-		//
-    //   // no-op if update does nothing
-    //   if (current) {
-    //     const upgradeType = getVersionUpgrade(current.version, tokenList.version)
-    //     if (upgradeType === VersionUpgrade.NONE) return
-    //     if (loadingRequestId === null || loadingRequestId === requestId) {
-    //       state.byUrl[url] = {
-    //         ...state.byUrl[url],
-    //         loadingRequestId: null,
-    //         error: null,
-    //         current: current,
-    //         pendingUpdate: tokenList
-    //       }
-    //     }
-    //   } else {
-    //     state.byUrl[url] = {
-    //       ...state.byUrl[url],
-    //       loadingRequestId: null,
-    //       error: null,
-    //       current: tokenList,
-    //       pendingUpdate: null
-    //     }
-    //   }
-    // })
-    // .addCase(fetchTokenList.rejected, (state, { payload: { url, requestId, errorMessage } }) => {
-    //   if (state.byUrl[url]?.loadingRequestId !== requestId) {
-    //     // no-op since it's not the latest request
-    //     return
-    //   }
-		//
-    //   state.byUrl[url] = {
-    //     ...state.byUrl[url],
-    //     loadingRequestId: null,
-    //     error: errorMessage,
-    //     current: null,
-    //     pendingUpdate: null
-    //   }
-    // })
+    .addCase(fetchTokenList.pending, (state, { payload: { requestId, url } }) => {
+      state.byUrl[url] = {
+        current: null,
+        pendingUpdate: null,
+        ...state.byUrl[url],
+        loadingRequestId: requestId,
+        error: null
+      }
+    })
+    .addCase(fetchTokenList.fulfilled, (state, { payload: { requestId, tokenList, url } }) => {
+      const current = state.byUrl[url]?.current
+      const loadingRequestId = state.byUrl[url]?.loadingRequestId
+
+      // no-op if update does nothing
+      if (current) {
+        const upgradeType = getVersionUpgrade(current.version, tokenList.version)
+        if (upgradeType === VersionUpgrade.NONE) return
+        if (loadingRequestId === null || loadingRequestId === requestId) {
+          state.byUrl[url] = {
+            ...state.byUrl[url],
+            loadingRequestId: null,
+            error: null,
+            current: current,
+            pendingUpdate: tokenList
+          }
+        }
+      } else {
+        state.byUrl[url] = {
+          ...state.byUrl[url],
+          loadingRequestId: null,
+          error: null,
+          current: tokenList,
+          pendingUpdate: null
+        }
+      }
+    })
+    .addCase(fetchTokenList.rejected, (state, { payload: { url, requestId, errorMessage } }) => {
+      if (state.byUrl[url]?.loadingRequestId !== requestId) {
+        // no-op since it's not the latest request
+        return
+      }
+
+      state.byUrl[url] = {
+        ...state.byUrl[url],
+        loadingRequestId: null,
+        error: errorMessage,
+        current: null,
+        pendingUpdate: null
+      }
+    })
     .addCase(selectList, (state, { payload: url }) => {
       state.selectedListUrl = url
       // automatically adds list

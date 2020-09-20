@@ -1,5 +1,6 @@
 // the Uniswap Default token list lives here
-export const DEFAULT_TOKEN_LIST_URL = 'tokens.uniswap.eth'
+export const DEFAULT_TOKEN_LIST_URL =
+'https://gist.githubusercontent.com/jmahhh/0c4b83891f1c3520c37fab7fcc518cba/raw/7d710be7719af1c54a78ca7d9fa670afcf44125b/gistfile1.json'
 
 // !NOTE changed
 export const DEFAULT_LIST_OF_LISTS: string[] = [
