@@ -1,4 +1,4 @@
-import { Currency, ETHER, JSBI, TokenAmount } from 'niftex-uni-sdk'
+import { Currency, JSBI, TokenAmount, Token } from 'niftex-uni-sdk'
 import React, { useCallback, useEffect, useState } from 'react'
 import { Plus } from 'react-feather'
 import { Text } from 'rebass'
@@ -25,12 +25,21 @@ enum Fields {
 }
 
 export default function PoolFinder() {
-  const { account } = useActiveWeb3React()
+  const { account, chainId } = useActiveWeb3React()
 
   const [showSearch, setShowSearch] = useState<boolean>(false)
   const [activeField, setActiveField] = useState<number>(Fields.TOKEN1)
 
-  const [currency0, setCurrency0] = useState<Currency | null>(ETHER)
+	const WETH = new Token(
+		chainId ?? 0,
+		process.env.REACT_APP_WETH_ADDRESS || '',
+		18,
+		'WETH',
+		'Wrapped Ether'
+	)
+
+	// !NOTE changed
+  const [currency0, setCurrency0] = useState<Currency | null>(WETH)
   const [currency1, setCurrency1] = useState<Currency | null>(null)
 
   const [pairState, pair] = usePair(currency0 ?? undefined, currency1 ?? undefined)
