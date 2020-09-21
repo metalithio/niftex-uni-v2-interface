@@ -224,10 +224,10 @@ function parseCurrencyFromURLParameter(urlParam: any): string {
     if (valid) return valid
     if (urlParam.toUpperCase() === 'ETH') return 'ETH'
 		// !NOTE changed
-    if (valid === false) return process.env.WETH_ADDRESS ?? ''
+    if (valid === false) return process.env.REACT_APP_WETH_ADDRESS ?? ''
   }
 	// !NOTE changed
-  return process.env.WETH_ADDRESS ?? ''
+  return process.env.REACT_APP_WETH_ADDRESS ?? ''
 }
 
 function parseTokenAmountURLParameter(urlParam: any): string {

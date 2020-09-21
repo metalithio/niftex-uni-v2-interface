@@ -5,7 +5,7 @@ import { fortmatic, injected, portis, walletconnect, walletlink } from '../conne
 
 // !NOTE changed
 // !CONFIG
-export const ROUTER_ADDRESS = process.env.ROUTER_ADDRESS ?? ''
+export const ROUTER_ADDRESS = process.env.REACT_APP_ROUTER_ADDRESS ?? ''
 
 // a list of tokens by chain
 // !NOTE changed

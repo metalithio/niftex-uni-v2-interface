@@ -175,9 +175,9 @@ export default function CurrencyList({
 
 	// !NOTE changed
 	// Currency.ETHER here is in fact MATIC
-	const WETH = chainId && process.env.WETH_ADDRESS && new Token(
+	const WETH = chainId && process.env.REACT_APP_WETH_ADDRESS && new Token(
 		chainId,
-		process.env.WETH_ADDRESS,
+		process.env.REACT_APP_WETH_ADDRESS,
 		18,
 		'WETH',
 		'Wrapped Ether'
