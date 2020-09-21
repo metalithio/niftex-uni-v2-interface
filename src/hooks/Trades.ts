@@ -95,15 +95,14 @@ export function useTradeExactIn(currencyAmountIn?: CurrencyAmount, currencyOut?:
  * Returns the best trade for the token in to the exact amount of token out
  */
 export function useTradeExactOut(currencyIn?: Currency, currencyAmountOut?: CurrencyAmount): Trade | null {
-  // const allowedPairs = useAllCommonPairs(currencyIn, currencyAmountOut?.currency)
+  const allowedPairs = useAllCommonPairs(currencyIn, currencyAmountOut?.currency)
   return useMemo(() => {
+		if (currencyIn && currencyAmountOut && allowedPairs.length > 0) {
+		  return (
+		    Trade.bestTradeExactOut(allowedPairs, currencyIn, currencyAmountOut, { maxHops: 3, maxNumResults: 1 })[0] ??
+		    null
+		  )
+		}
     return null
-  }, [])
+  }, [allowedPairs, currencyIn, currencyAmountOut])
 }
-
-// if (currencyIn && currencyAmountOut && allowedPairs.length > 0) {
-//   return (
-//     Trade.bestTradeExactOut(allowedPairs, currencyIn, currencyAmountOut, { maxHops: 3, maxNumResults: 1 })[0] ??
-//     null
-//   )
-// }
