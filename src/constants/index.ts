@@ -4,7 +4,8 @@ import { AbstractConnector } from '@web3-react/abstract-connector'
 import { fortmatic, injected, portis, walletconnect, walletlink } from '../connectors'
 
 // !NOTE changed
-export const ROUTER_ADDRESS = '0x9D3a9Dc2BF1462CC3B9Bcff3C06a1C88b783dF47'
+// !CONFIG
+export const ROUTER_ADDRESS = process.env.ROUTER_ADDRESS ?? ''
 
 // a list of tokens by chain
 // !NOTE changed
@@ -31,8 +32,8 @@ const WETH_ONLY: ChainTokenList = {
 export const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ...WETH_ONLY,
   [ChainId.MAINNET]: [...WETH_ONLY[ChainId.MAINNET], DAI, USDC, USDT, COMP, MKR],
-	[80001]: []
-
+	[80001]: [],
+	[137]: [],
 }
 
 /**

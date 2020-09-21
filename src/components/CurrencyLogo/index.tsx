@@ -9,7 +9,7 @@ import Logo from '../Logo'
 
 const getTokenLogoURL = (address: string) => {
 	// !NOTE changed ETH -> MATIC
-	if (address.toLowerCase() === '0x714550C2C1Ea08688607D86ed8EeF4f5E4F22323'.toLowerCase()) {
+	if (address.toLowerCase() === process!.env!.WETH_ADDRESS!.toLowerCase()) {
 		return 'https://etherscan.io/token/images/weth_28.png';
 	}
   return `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`

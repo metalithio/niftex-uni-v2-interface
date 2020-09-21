@@ -171,11 +171,13 @@ export default function CurrencyList({
   fixedListRef?: MutableRefObject<FixedSizeList | undefined>
   showETH: boolean
 }) {
+	const { chainId } = useActiveWeb3React()
+
 	// !NOTE changed
 	// Currency.ETHER here is in fact MATIC
-	const WETH = new Token(
-		80001,
-		'0x714550C2C1Ea08688607D86ed8EeF4f5E4F22323',
+	const WETH = chainId && process.env.WETH_ADDRESS && new Token(
+		chainId,
+		process.env.WETH_ADDRESS,
 		18,
 		'WETH',
 		'Wrapped Ether'
