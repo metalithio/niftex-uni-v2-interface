@@ -54,7 +54,6 @@
     "lodash.flatmap": "^4.5.0",
     "multicodec": "^2.0.0",
     "multihashes": "^3.0.1",
-    "niftex-uni-sdk": "^3.0.3-alpha.1",
     "polished": "^3.3.2",
     "prettier": "^1.17.0",
     "qs": "^6.9.4",
@@ -105,5 +104,8 @@
       "last 1 safari version"
     ]
   },
-  "license": "GPL-3.0-or-later"
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "niftex-uni-sdk": "^3.0.3-alpha.3"
+  }
 }
